@@ -3,10 +3,31 @@ import { View, StyleSheet, StatusBar, Text } from "react-native";
 import Login from "./App/Screens/LoginScreen/Login";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import Colors from "./App/Utils/Colors";
+import * as SecureStore from "expo-secure-store";
+
+const tokenCache = {
+  async getToken(key) {
+    try {
+      return SecureStore.getItemAsync(key);
+    } catch (err) {
+      return null;
+    }
+  },
+  async saveToken(key) {
+    try {
+      return SecureStore.setItemAsync(key, value);
+    } catch (err) {
+      return;
+    }
+  },
+};
 
 const App = () => {
   return (
-    <ClerkProvider publishableKey="pk_test_c3Vubnkta2l3aS01Ny5jbGVyay5hY2NvdW50cy5kZXYk">
+    <ClerkProvider
+      tokenCache={tokenCache}
+      publishableKey="pk_test_c3Vubnkta2l3aS01Ny5jbGVyay5hY2NvdW50cy5kZXYk"
+    >
       <View style={styles.container}>
         <SignedIn>
           <Text
