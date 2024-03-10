@@ -1,20 +1,35 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { View, StyleSheet, StatusBar, Text } from "react-native";
+import Login from "./App/Screens/LoginScreen/Login";
+import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
+import Colors from "./App/Utils/Colors";
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Hi Welcome to React Native!!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ClerkProvider publishableKey="pk_test_c3Vubnkta2l3aS01Ny5jbGVyay5hY2NvdW50cy5kZXYk">
+      <View style={styles.container}>
+        <SignedIn>
+          <Text
+            style={{ fontSize: 17, color: Colors.BLACK, textAlign: "center" }}
+          >
+            You are Signed In
+          </Text>
+        </SignedIn>
+        <SignedOut>
+          <Login />
+        </SignedOut>
+        <StatusBar style="auto" />
+      </View>
+    </ClerkProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 20,
   },
 });
+
+export default App;
